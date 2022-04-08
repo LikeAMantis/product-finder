@@ -17,21 +17,20 @@ export default function handler(
         return;
     }
 
-    excludeShops = excludeShops
-        .split("%2")
-        .map((x) => "'" + x + "'")
-        .join(", ");
+    excludeShops = excludeShops.split("%2C");
 
-    connection.query(
-        `SELECT * FROM products_joined 
+    console.log("exclude: ", excludeShops);
+
+    const query = `SELECT * FROM products_joined 
         WHERE INSTR(name, "${search}") > 0
-        AND shop Not IN (${excludeShops}) 
+        AND shop Not IN (?) 
         ORDER BY ${orders[orderBy]}
         LIMIT ${limit}
-        `,
-        (err, rows) => {
-            if (err) throw err;
-            res.status(200).json(rows);
-        }
-    );
+        `;
+
+    connection.query(query, [excludeShops], (err, rows) => {
+        // console.log(rows);
+        if (err) throw err;
+        res.status(200).json(rows);
+    });
 }

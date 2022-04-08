@@ -36,6 +36,7 @@ const Input = ({ placeholder, className }) => {
                         }
                         router.push({
                             query: {
+                                ...router.query,
                                 search: value,
                             },
                         });

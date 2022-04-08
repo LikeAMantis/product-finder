@@ -7,11 +7,14 @@ const ShopFilter = ({ className, searchInfo, ...props }) => {
             {searchInfo.map((info) => (
                 <div className="flex items-center">
                     <FilterBtn
+                        key={info.shop}
                         shopId={info.shop}
                         initActive={!props.excludeShops.includes(info.shop)}
                         {...props}
                     />
-                    <p className="text-sm text-gray-400">{info.count}</p>
+                    <p className="select-none text-sm text-gray-400">
+                        {info.count}
+                    </p>
                 </div>
             ))}
         </div>
