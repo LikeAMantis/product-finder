@@ -1,14 +1,8 @@
-import { readdirSync } from "fs";
-
-var shops = readdirSync("E:/Projects/Coding/Web/shop-scrapper/data").map(
-    (folder) => ({
-        name: folder,
-        categories: readdirSync(
-            `E:/Projects/Coding/Web/shop-scrapper/data/${folder}`
-        ).map((file) => file.replace(".csv", "")),
-    })
-);
+import { connection } from "../../lib/sql";
 
 export default function handler(req, res) {
-    res.status(200).json(shops);
+    connection.query(`SELECT * FROM shops`, (err, rows) => {
+        if (err) throw err;
+        res.status(200).json(rows);
+    });
 }
