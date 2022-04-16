@@ -1,16 +1,22 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { Global } from "../pages/_app";
 
-const FilterBtn = ({ shopId, toggleShop, initActive }) => {
-    const [active, setActive] = useState(initActive);
+const FilterBtn = ({ shopId, isActive, onShiftClick, onClick }) => {
+    const { shiftPressed } = useContext(Global);
 
     return (
         <button
-            className={`cursor-pointer select-none rounded-full px-4 py-1 text-sm capitalize transition-colors duration-200  ${
-                active ? "bg-primary hover:bg-primary-highlight" : "bg-gray-500"
+            className={`cursor-pointer select-none whitespace-nowrap rounded-full px-4 py-1 text-sm capitalize transition-colors duration-200 focus-visible:outline-none  ${
+                isActive
+                    ? "bg-primary hover:bg-primary-highlight"
+                    : "bg-gray-500"
             }`}
             onClick={() => {
-                setActive(!active);
-                toggleShop(shopId);
+                if (shiftPressed) {
+                    onShiftClick(shopId);
+                    return;
+                }
+                onClick(shopId);
             }}
         >
             {shopId}

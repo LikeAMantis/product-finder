@@ -1,8 +1,7 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { classNames } from "../lib/utils";
 
 const sortOptions = [
@@ -25,6 +24,16 @@ const buttonIcon = (open) => {
 export default function Sort({ className }) {
     const [currentOption, setCurrentOption] = useState("priceAsc");
     const router = useRouter();
+
+    useEffect(
+        () => {
+            const orderBy = router.query.orderBy;
+
+            if (!orderBy) return;
+            setCurrentOption(orderBy);
+        },
+        [router] // when using server side rendering -> delete router dependency
+    );
 
     return (
         <Menu
@@ -60,16 +69,14 @@ export default function Sort({ className }) {
                                                             ...router.query,
                                                             orderBy:
                                                                 option.orderBy,
+                                                            page: 1,
                                                         },
-                                                    }),
-                                                        setCurrentOption(
-                                                            option.orderBy
-                                                        );
+                                                    });
                                                 }}
                                                 className={classNames(
                                                     option.orderBy ===
                                                         currentOption
-                                                        ? "font-medium text-skin-muted"
+                                                        ? "bg-gray-500 font-medium text-skin-muted"
                                                         : "text-skin-base",
                                                     active ? "bg-gray-600" : "",
                                                     "block cursor-pointer px-4 py-2 text-sm hover:bg-gray-600"

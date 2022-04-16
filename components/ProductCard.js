@@ -1,23 +1,36 @@
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
-const ProductCard = ({ product, logoUrl }) => {
+const ProductCard = ({ product, shop }) => {
     return (
-        <AnimatePresence>
-            <motion.div
-                className="relative flex h-min w-[90%] cursor-pointer flex-col gap-4 p-5 px-12 pt-10 shadow-md shadow-black transition-transform duration-150 hover:scale-105 md:w-64"
+        <Link href={shop.shopUrl + product.productUrl} passHref={true}>
+            <motion.a
+                className="group relative flex h-min w-[90%] cursor-pointer flex-col gap-4 p-5 px-12 pt-10 shadow-md shadow-black md:w-64"
+                target="_blank"
                 // layout="position"
-                transition={{ duration: 0.3 }}
+                // initial={{ opacity: 0 }}
+                // animate={{ opacity: 1 }}
+                // exit={{ opacity: 0 }}
+                // transition={{ opacity: { duration: 0.5 } }}
             >
                 {/* Logo */}
                 <img
                     className="absolute left-0 top-0 w-8 rounded-sm"
-                    src={logoUrl}
+                    src={shop.logoUrl}
                 ></img>
                 {/* Name */}
-                <p className="h-16 font-medium">{product.name}</p>
+                <p
+                    className="card-header h-[74px] pb-5 font-medium"
+                    title={product.name}
+                >
+                    {product.name}
+                </p>
                 {/* Product Image */}
-                <div className="flex w-44 justify-center self-center">
-                    <img src={product.imgUrl}></img>
+                <div className="flex w-44 justify-center self-center overflow-hidden bg-white">
+                    <img
+                        className="transition-transform duration-1000 group-hover:scale-125 "
+                        src={product.imgUrl}
+                    ></img>
                 </div>
                 {/* Category */}
                 <p className="absolute bottom-2 left-3  capitalize text-gray-400">
@@ -27,8 +40,8 @@ const ProductCard = ({ product, logoUrl }) => {
                 <p className="-mr-6 self-end rounded-full bg-red-500 p-2 px-4">
                     {product.price + " €"}
                 </p>
-            </motion.div>
-        </AnimatePresence>
+            </motion.a>
+        </Link>
     );
 };
 export default ProductCard;

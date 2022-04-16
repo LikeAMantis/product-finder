@@ -5,8 +5,8 @@ import { classNames } from "../lib/utils";
 import Alert from "./Alert";
 
 const Input = ({ placeholder, className }) => {
-    const [value, setValue] = useState("");
     const router = useRouter();
+    const [value, setValue] = useState(router.query.search ?? "");
     const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {

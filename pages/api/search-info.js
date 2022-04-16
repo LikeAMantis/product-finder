@@ -1,6 +1,6 @@
 import { connection } from "../../lib/sql";
 
-export default function handler({ query: { search } }, res) {
+export default function handler({ query: { search = "" } }, res) {
     if (!search) {
         res.status(404).json({ message: "Need a Search Query!" });
         return;

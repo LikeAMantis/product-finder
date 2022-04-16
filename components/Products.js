@@ -1,23 +1,24 @@
 import { RefreshIcon } from "@heroicons/react/solid";
-import { motion, LayoutGroup } from "framer-motion";
-import { useEffect, useRef } from "react";
-import { useFirstMountState } from "react-use";
+import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 
-const Products = ({ products, shops, isLoading }) => {
+const Products = ({ products, shops, isLoading, ...props }) => {
     const isFirstSearch = useRef(false);
 
     function productCards() {
-        return products.map((product) => (
-            <ProductCard
-                key={product.id}
-                product={product}
-                logoUrl={
-                    shops.find((shop) => shop.name === product.shop)?.logoUrl
-                }
-            />
-        ));
+        return (
+            <AnimatePresence>
+                {products.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                        shop={shops.find((shop) => shop.name === product.shop)}
+                    />
+                ))}
+            </AnimatePresence>
+        );
     }
 
     function loadingAnimation() {
@@ -52,7 +53,8 @@ const Products = ({ products, shops, isLoading }) => {
                 className={`relative flex h-full flex-wrap justify-center gap-4 py-10 ${
                     isLoading ? "items-center" : "items-start"
                 }`}
-                transition={{ duration: 0.3 }}
+                // layout
+                // transition={{ duration: 0.3 }}
             >
                 {products.length > 0 && !isLoading
                     ? productCards()
@@ -62,7 +64,7 @@ const Products = ({ products, shops, isLoading }) => {
                           <p className="text-lg font-bold">Nothing Found :/</p>
                       )}
             </motion.div>
-            {products.length > 0 && <Pagination />}
+            {products.length > 0 && <Pagination {...props} />}
         </LayoutGroup>
     );
 };

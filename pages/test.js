@@ -1,29 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useReducer } from "react";
+import useTest from "../lib/useTest";
+
+// const Component = ;
 
 const Test = () => {
-    const [count, setCount] = useState(0);
-    const [test, setTest] = useState(true);
     const [toggle, setToggle] = useState(true);
 
-    const Child = useCallback((props) => {
-        useEffect(() => {
-            console.log("Child rerenderd" + props.count);
-        });
-
-        return <div>Child: {}</div>;
+    useEffect(() => {
+        console.log("effect");
     }, []);
 
-    const bla = () => {
-        return <div>toggletoggletoggle </div>;
-    };
+    function test() {
+        if (toggle)
+            return (
+                <div>
+                    <p>Yes</p>
+                    Hello
+                </div>
+            );
+        return (
+            <div>
+                Hello
+                <p>Yes</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="text-skin-base">
-            <p>count: {count}</p>
-            <button onClick={() => setCount(++count)}>Increase</button>
-            {test && <Child count={count} />}
-            {bla()}
-            <button onClick={() => setToggle(!toggle)}>toggle</button>
+        <div>
+            <div className="text-skin-base">
+                {test()}
+                <button
+                    onClick={() => {
+                        setToggle(!toggle);
+                    }}
+                >
+                    pressme
+                </button>
+            </div>
         </div>
     );
 };
