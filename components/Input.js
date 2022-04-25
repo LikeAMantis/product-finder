@@ -38,6 +38,7 @@ const Input = ({ placeholder, className }) => {
                             query: {
                                 ...router.query,
                                 search: value,
+                                page: 1,
                             },
                         });
                     }

@@ -9,9 +9,9 @@ function MyApp({ Component, pageProps }) {
     const shiftPressed = useIsKeyDown("Shift");
 
     return (
-        <div className="grid h-screen grid-rows-[auto_1fr] bg-black">
+        <div className="grid h-screen grid-rows-[auto_1fr] overflow-x-hidden">
             <Header />
-            <div className="container mx-auto">
+            <div className="">
                 <Global.Provider value={{ shiftPressed }}>
                     <Component {...pageProps} />
                 </Global.Provider>

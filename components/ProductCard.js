@@ -5,7 +5,7 @@ const ProductCard = ({ product, shop }) => {
     return (
         <Link href={shop.shopUrl + product.productUrl} passHref={true}>
             <motion.a
-                className="group relative flex h-min w-[90%] cursor-pointer flex-col gap-4 p-5 px-12 pt-10 shadow-md shadow-black md:w-64"
+                className="group relative flex h-min w-[90%] cursor-pointer flex-col gap-4 p-5 px-12 pt-10 shadow-md shadow-black md:w-72"
                 target="_blank"
                 // layout="position"
                 // initial={{ opacity: 0 }}
@@ -26,7 +26,7 @@ const ProductCard = ({ product, shop }) => {
                     {product.name}
                 </p>
                 {/* Product Image */}
-                <div className="flex w-44 justify-center self-center overflow-hidden bg-white">
+                <div className="flex aspect-square w-48 justify-center self-center overflow-hidden bg-white md:w-full">
                     <img
                         className="transition-transform duration-1000 group-hover:scale-125 "
                         src={product.imgUrl}
@@ -37,7 +37,7 @@ const ProductCard = ({ product, shop }) => {
                     {product.category}
                 </p>
                 {/* Price */}
-                <p className="-mr-6 self-end rounded-full bg-red-500 p-2 px-4">
+                <p className="-mr-6 self-end rounded-full bg-red-500 p-2 px-4 text-sm font-medium">
                     {product.price + " €"}
                 </p>
             </motion.a>

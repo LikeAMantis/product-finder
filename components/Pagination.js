@@ -1,18 +1,26 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 import { range } from "../lib/utils";
 
 export default function Pagination({ results, limit }) {
     const router = useRouter();
     const q = router.query.page;
     const currentPage = q ? parseInt(q) : 1;
-    const pagesCount = results / limit;
-    const length = 20;
-    const pageDiv = 3;
+    const pagesCount = Math.ceil(results / limit);
+    const pageDiv = 0;
+    const scrollContainerRef = useRef();
+
+    useEffect(() => {
+        scrollContainerRef.current.addEventListener("wheel", (evt) => {
+            evt.preventDefault();
+            scrollContainerRef.current.scrollLeft += evt.deltaY;
+        });
+    }, []);
 
     return (
-        <div className="flex w-full items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+        <div className="flex w-full items-center justify-between overflow-hidden overflow-x-auto border-t border-gray-200 bg-white px-4 py-3 shadow-md sm:px-6">
             <div className="flex flex-1 justify-between sm:hidden">
                 <a
                     href="#"
@@ -42,7 +50,7 @@ export default function Pagination({ results, limit }) {
                         results
                     </p>
                 </div>
-                <div>
+                <div ref={scrollContainerRef} className="overflow-x-auto">
                     <nav
                         className="relative z-0 inline-flex -space-x-px rounded-md shadow-sm"
                         aria-label="Pagination"
@@ -72,10 +80,13 @@ export default function Pagination({ results, limit }) {
                         {/* First 4 */}
                         {
                             // range(1, Math.ceil(pagesCount))
-                            range(1, pageDiv).map((count) => (
+                            range(1, pagesCount).map((count) => (
                                 <Link
                                     href={{
-                                        query: { ...router.query, page: count },
+                                        query: {
+                                            ...router.query,
+                                            page: count,
+                                        },
                                     }}
                                 >
                                     <a
@@ -91,13 +102,11 @@ export default function Pagination({ results, limit }) {
                             ))
                         }
                         {/* In Between */}
-                        <span className="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
-                            ...
-                        </span>
+
                         {/* Last 4 */}
                         {
                             // range(1, Math.ceil(pagesCount))
-                            range(length - pageDiv + 1, pageDiv).map(
+                            range(pagesCount - pageDiv + 1, pageDiv).map(
                                 (count) => (
                                     <Link
                                         href={{

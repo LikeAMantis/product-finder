@@ -8,6 +8,7 @@ const ShopFilter = ({
     searchInfo,
     excludeShops,
     setExcludeShops,
+    shops,
 }) => {
     const router = useRouter();
 
@@ -27,8 +28,10 @@ const ShopFilter = ({
     }
 
     function handleShiftClick(shopId) {
-        const shops = searchInfo.map((x) => x.shop);
-        pushExcludeShops(shops.filter((shop) => shop !== shopId));
+        // const shops = ;
+        pushExcludeShops(
+            shops.map((x) => x.name).filter((shop) => shop !== shopId)
+        );
     }
 
     function pushExcludeShops(newExcludeShops) {
@@ -53,11 +56,6 @@ const ShopFilter = ({
                             setExcludeShops([]);
                             pushExcludeShops([]);
                         }}
-                        onShiftClick={() => {
-                            const allShops = searchInfo.map((x) => x.shop);
-                            setExcludeShops(allShops);
-                            pushExcludeShops(allShops);
-                        }}
                     />
                     <p className="select-none text-sm text-gray-400">
                         {searchInfo
@@ -65,17 +63,18 @@ const ShopFilter = ({
                             .reduce((x, y) => x + y, 0)}
                     </p>
                 </div>
-                {searchInfo.map((info) => (
+                {shops.map((shop) => (
                     <div className="flex flex-col items-center">
                         <FilterBtn
-                            key={info.shop}
-                            shopId={info.shop}
-                            isActive={!excludeShops.includes(info.shop)}
+                            key={shop.id}
+                            shopId={shop.name}
+                            isActive={!excludeShops.includes(shop.name)}
                             onClick={toggleShop}
                             onShiftClick={handleShiftClick}
                         />
                         <p className="select-none text-sm text-gray-400">
-                            {info.count}
+                            {searchInfo.find((x) => x.shop === shop.name)
+                                ?.count ?? 0}
                         </p>
                     </div>
                 ))}

@@ -16,16 +16,19 @@ const Home = ({ test }) => {
     }, []);
 
     return (
-        <div className="flex h-full flex-col items-center gap-2 overflow-auto bg-skin-fill text-skin-base">
+        <div className="flex h-full flex-col items-center gap-2 overflow-hidden text-skin-base">
             <div className="top-1/2 z-10 grid w-[80%] max-w-xl grid-cols-2 gap-2">
                 <Input className="col-span-2" placeholder="Search Product" />
-                <ToggleFilter
-                    className="self-start"
-                    searchInfo={searchInfo}
-                    excludeShops={excludeShops}
-                    setExcludeShops={setExcludeShops}
-                />
-                <Sort className="justify-self-end" />
+                {products.length > 0 && (
+                    <ToggleFilter
+                        className="self-start"
+                        searchInfo={searchInfo}
+                        shops={shops}
+                        excludeShops={excludeShops}
+                        setExcludeShops={setExcludeShops}
+                    />
+                )}
+                <Sort className="col-start-2 col-end-3 justify-self-end" />
             </div>
             <Products
                 products={products}

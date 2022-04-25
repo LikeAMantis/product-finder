@@ -13,6 +13,7 @@ const FilterBtn = ({ shopId, isActive, onShiftClick, onClick }) => {
             }`}
             onClick={() => {
                 if (shiftPressed) {
+                    if (!onShiftClick) return;
                     onShiftClick(shopId);
                     return;
                 }

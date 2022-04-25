@@ -50,7 +50,7 @@ const Products = ({ products, shops, isLoading, ...props }) => {
     return (
         <LayoutGroup>
             <motion.div
-                className={`relative flex h-full flex-wrap justify-center gap-4 py-10 ${
+                className={`container relative flex h-full flex-wrap justify-center gap-4 py-10 ${
                     isLoading ? "items-center" : "items-start"
                 }`}
                 // layout
