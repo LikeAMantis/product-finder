@@ -12,9 +12,11 @@ const Products = ({ products, shops, isLoading, ...props }) => {
             <AnimatePresence>
                 {products.map((product) => (
                     <ProductCard
-                        key={product.id}
+                        key={product.productId}
                         product={product}
-                        shop={shops.find((shop) => shop.name === product.shop)}
+                        shop={shops.find(
+                            (shop) => shop.shopId === product.shopId
+                        )}
                     />
                 ))}
             </AnimatePresence>

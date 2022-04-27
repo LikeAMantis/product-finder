@@ -1,85 +1,69 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { Children, cloneElement, useEffect, useRef } from "react";
+import useSideScroll from "../lib/useSideScroll";
 import { classNames } from "../lib/utils";
-import FilterBtn from "./FilterBtn";
 
-const ShopFilter = ({
+const ToggleFilter = ({
     className,
-    searchInfo,
-    excludeShops,
-    setExcludeShops,
-    shops,
+    type,
+    excludeArr,
+    setItems,
+    children,
+    itemsIds,
 }) => {
     const router = useRouter();
+    const ref = useRef();
+
+    useSideScroll(ref);
 
     useEffect(() => {
-        const query = router.query.excludeShops;
+        const query = router.query[type];
         if (query) {
-            setExcludeShops(query.split(","));
+            setItems(query.split(","));
         }
     }, []);
 
-    function toggleShop(shopId) {
-        if (excludeShops.indexOf(shopId) === -1) {
-            pushExcludeShops([...excludeShops, shopId]);
+    function toggleBtn(shopId) {
+        if (excludeArr.indexOf(shopId) === -1) {
+            pushToQuery([...excludeArr, shopId]);
             return;
         }
-        pushExcludeShops(excludeShops.filter((x) => x !== shopId));
+        pushToQuery(excludeArr.filter((x) => x !== shopId));
     }
 
-    function handleShiftClick(shopId) {
-        // const shops = ;
-        pushExcludeShops(
-            shops.map((x) => x.name).filter((shop) => shop !== shopId)
-        );
+    function handleShiftClick(id) {
+        pushToQuery(itemsIds.filter((item) => item !== id));
     }
 
-    function pushExcludeShops(newExcludeShops) {
-        setExcludeShops(newExcludeShops);
-        router.push({
+    function pushToQuery(newItems) {
+        setItems(newItems);
+        const push = {
             query: {
                 ...router.query,
-                excludeShops: newExcludeShops.join(","),
                 page: 1,
             },
-        });
+        };
+        push.query[type] = newItems.join(",");
+        router.push(push);
+    }
+
+    function selectAll() {
+        setItems([]);
+        pushToQuery([]);
     }
 
     return (
-        <div className={classNames("flex gap-1", className)}>
-            <div className="flex items-center gap-2">
-                <div className="flex flex-col items-center">
-                    <FilterBtn
-                        shopId="Select All"
-                        isActive={excludeShops.length === 0}
-                        onClick={() => {
-                            setExcludeShops([]);
-                            pushExcludeShops([]);
-                        }}
-                    />
-                    <p className="select-none text-sm text-gray-400">
-                        {searchInfo
-                            .map((x) => x.count)
-                            .reduce((x, y) => x + y, 0)}
-                    </p>
-                </div>
-                {shops.map((shop) => (
-                    <div className="flex flex-col items-center">
-                        <FilterBtn
-                            key={shop.id}
-                            shopId={shop.name}
-                            isActive={!excludeShops.includes(shop.name)}
-                            onClick={toggleShop}
-                            onShiftClick={handleShiftClick}
-                        />
-                        <p className="select-none text-sm text-gray-400">
-                            {searchInfo.find((x) => x.shop === shop.name)
-                                ?.count ?? 0}
-                        </p>
-                    </div>
-                ))}
-            </div>
+        <div ref={ref} className={className}>
+            {typeof children == "function"
+                ? children({
+                      toggleBtn,
+                      handleShiftClick,
+                      selectAll,
+                      excludeArr,
+                  })
+                : children}
         </div>
     );
 };
-export default ShopFilter;
+
+export default ToggleFilter;

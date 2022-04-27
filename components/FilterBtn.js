@@ -1,16 +1,20 @@
 import { useContext } from "react";
+import { classNames } from "../lib/utils";
 import { Global } from "../pages/_app";
 
-const FilterBtn = ({ shopId, isActive, onShiftClick, onClick }) => {
+const FilterBtn = ({
+    shopId,
+    onShiftClick,
+    onClick,
+    disabled,
+    className,
+    count,
+}) => {
     const { shiftPressed } = useContext(Global);
 
     return (
         <button
-            className={`cursor-pointer select-none whitespace-nowrap rounded-full px-4 py-1 text-sm capitalize transition-colors duration-200 focus-visible:outline-none  ${
-                isActive
-                    ? "bg-primary hover:bg-primary-highlight"
-                    : "bg-gray-500"
-            }`}
+            className={className}
             onClick={() => {
                 if (shiftPressed) {
                     if (!onShiftClick) return;
@@ -19,8 +23,9 @@ const FilterBtn = ({ shopId, isActive, onShiftClick, onClick }) => {
                 }
                 onClick(shopId);
             }}
+            disabled={disabled}
         >
-            {shopId}
+            {shopId} {count && <span className="font-semibold">({count})</span>}
         </button>
     );
 };

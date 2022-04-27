@@ -13,6 +13,7 @@ export default function handler(
             search,
             orderBy = "priceAsc",
             excludeShops = "",
+            excludeCategories = "",
             limit = 100,
             page = 1,
         },
@@ -29,16 +30,18 @@ export default function handler(
     }
 
     excludeShops = excludeShops.split(",");
-    console.log("exclude: ", excludeShops);
+    excludeCategories = excludeCategories.split(",");
+    console.log("excludeShops", excludeShops);
+    console.log("excludeCategories", excludeCategories);
 
-    const query = `SELECT * FROM products_joined 
+    const query = `SELECT * FROM products 
         WHERE INSTR(name, "${search}") > 0
-        AND shop Not IN (?) 
+        AND shopId Not IN (?) AND categoryId Not IN (?)
         ORDER BY ${orders[orderBy]}
         LIMIT ${offset}, ${limit}
         `;
 
-    connection.query(query, [excludeShops], (err, rows) => {
+    connection.query(query, [excludeShops, excludeCategories], (err, rows) => {
         if (err) throw err;
         res.status(200).json(rows);
     });

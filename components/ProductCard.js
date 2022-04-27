@@ -3,7 +3,10 @@ import Link from "next/link";
 
 const ProductCard = ({ product, shop }) => {
     return (
-        <Link href={shop.shopUrl + product.productUrl} passHref={true}>
+        <Link
+            href={shop.shopUrl + product.productUrl.substring(1)}
+            passHref={true}
+        >
             <motion.a
                 className="group relative flex h-min w-[90%] cursor-pointer flex-col gap-4 p-5 px-12 pt-10 shadow-md shadow-black md:w-72"
                 target="_blank"
@@ -34,7 +37,7 @@ const ProductCard = ({ product, shop }) => {
                 </div>
                 {/* Category */}
                 <p className="absolute bottom-2 left-3  capitalize text-gray-400">
-                    {product.category}
+                    {product.categoryId}
                 </p>
                 {/* Price */}
                 <p className="-mr-6 self-end rounded-full bg-red-500 p-2 px-4 text-sm font-medium">

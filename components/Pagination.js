@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
+import useSideScroll from "../lib/useSideScroll";
 import { range } from "../lib/utils";
 
 export default function Pagination({ results, limit }) {
@@ -12,12 +13,7 @@ export default function Pagination({ results, limit }) {
     const pageDiv = 0;
     const scrollContainerRef = useRef();
 
-    useEffect(() => {
-        scrollContainerRef.current.addEventListener("wheel", (evt) => {
-            evt.preventDefault();
-            scrollContainerRef.current.scrollLeft += evt.deltaY;
-        });
-    }, []);
+    useSideScroll(scrollContainerRef);
 
     return (
         <div className="flex w-full items-center justify-between overflow-hidden overflow-x-auto border-t border-gray-200 bg-white px-4 py-3 shadow-md sm:px-6">
