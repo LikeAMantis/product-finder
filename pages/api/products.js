@@ -3,8 +3,8 @@ import { connection } from "../../lib/sql";
 const orders = {
     priceAsc: "price asc",
     priceDesc: "price desc",
-    category: "category",
-    shop: "shop",
+    category: "categoryId",
+    shop: "shopId",
 };
 
 export default function handler(
@@ -23,7 +23,6 @@ export default function handler(
     limit = Math.min(limit, 100);
     const offset = (page - 1) * limit;
 
-    console.log("search: ", search);
     if (!search) {
         res.status(404).json({ message: "Need a Search Query!" });
         return;
@@ -31,8 +30,6 @@ export default function handler(
 
     excludeShops = excludeShops.split(",");
     excludeCategories = excludeCategories.split(",");
-    console.log("excludeShops", excludeShops);
-    console.log("excludeCategories", excludeCategories);
 
     const query = `SELECT * FROM products 
         WHERE INSTR(name, "${search}") > 0

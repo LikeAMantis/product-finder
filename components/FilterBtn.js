@@ -25,7 +25,10 @@ const FilterBtn = ({
             }}
             disabled={disabled}
         >
-            {shopId} {count && <span className="font-semibold">({count})</span>}
+            {shopId}{" "}
+            {count && count !== 0 ? (
+                <span className="font-semibold">({count})</span>
+            ) : null}
         </button>
     );
 };

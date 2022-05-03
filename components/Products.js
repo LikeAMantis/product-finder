@@ -1,11 +1,13 @@
 import { RefreshIcon } from "@heroicons/react/solid";
 import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/router";
 import { useRef } from "react";
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 
-const Products = ({ products, shops, isLoading, ...props }) => {
+const Products = ({ products, shops, isLoading, isProducts }) => {
     const isFirstSearch = useRef(false);
+    const router = useRouter();
 
     function productCards() {
         return (
@@ -50,24 +52,19 @@ const Products = ({ products, shops, isLoading, ...props }) => {
     }
 
     return (
-        <LayoutGroup>
-            <motion.div
-                className={`container relative flex h-full flex-wrap justify-center gap-4 py-10 ${
-                    isLoading ? "items-center" : "items-start"
-                }`}
-                // layout
-                // transition={{ duration: 0.3 }}
-            >
-                {products.length > 0 && !isLoading
-                    ? productCards()
-                    : isLoading
-                    ? loadingAnimation()
-                    : isFirstSearch.current && (
-                          <p className="text-lg font-bold">Nothing Found :/</p>
-                      )}
-            </motion.div>
-            {products.length > 0 && <Pagination {...props} />}
-        </LayoutGroup>
+        <motion.div
+            className={`container relative flex h-full flex-wrap justify-center gap-4 py-10 md:gap-y-12 ${
+                isLoading ? "items-center" : "items-start"
+            }`}
+        >
+            {!isLoading ? productCards() : loadingAnimation()}
+            {!isProducts && router.query.search && (
+                <p className="text-xl">{"Nothing found :("}</p>
+            )}
+            {isProducts && products.length === 0 && (
+                <p className="text-xl">Activate filters to show products!</p>
+            )}
+        </motion.div>
     );
 };
 

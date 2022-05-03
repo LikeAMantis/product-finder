@@ -20,9 +20,9 @@ const Input = ({ placeholder, className }) => {
     }, [showAlert]);
 
     return (
-        <div className={classNames("relative mt-10 w-full", className)}>
+        <div className={classNames("relative w-full", className)}>
             <input
-                className="peer mt-4 w-full border-b border-gray-400 bg-transparent px-1 text-skin-base outline-none"
+                className="peer mt-4 w-full border-b border-gray-400 bg-transparent px-1 text-lg text-skin-base outline-none"
                 placeholder=" "
                 onChange={(e) => {
                     setValue(e.target.value);

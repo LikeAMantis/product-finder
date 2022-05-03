@@ -35,6 +35,13 @@ module.exports = {
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                 },
+                ".no-scrollbar::-webkit-scrollbar": {
+                    display: "none",
+                },
+                ".no-scrollbar": {
+                    "-ms-overflow-style": "none", /* IE and Edge */
+                    "scrollbar-width": "none", /* Firefox */
+                }
             });
         }),
     ],
