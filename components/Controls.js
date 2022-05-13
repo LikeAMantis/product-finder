@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sort from "./Sort";
 import Input from "./Input";
 import { motion } from "framer-motion";
@@ -7,7 +7,7 @@ import CategoryFilters from "./CategoryFilters";
 import MobileFilter from "./MobileFilter";
 import useFilter from "../lib/useFilter";
 
-export function Controls({ isSearch, shops, searchInfo }) {
+export function Controls({ isSearch, shops, searchInfo, containerRef }) {
     const shopFilters = useFilter({
         saveToLocalStorage: true,
         type: "excludeShops",
@@ -29,26 +29,55 @@ export function Controls({ isSearch, shops, searchInfo }) {
         searchInfo,
     };
 
+    const [isSticky, setIsSticky] = useState(false);
+    const ref = useRef();
+
+    // useEffect(() => {
+    //     const cachedRef = ref.current,
+    //         observer = new IntersectionObserver(() => console.log("yes"), {
+    //             root: containerRef.current,
+    //             threshold: [0.5],
+    //             rootMargin: "0px",
+    //         });
+    //     observer.observe(cachedRef);
+
+    //     return function () {
+    //         observer.unobserve(cachedRef);
+    //     };
+    // }, []);
+
+    useEffect(() => {
+        console.log("ok");
+    }, [isSticky]);
+
     return (
-        <motion.div className="relative z-10 mt-10 grid w-full grid-cols-[1fr_auto] gap-2 md:px-10">
-            <Input
-                className="sticky top-0 z-50 col-span-2 bg-skin-fill"
-                placeholder="Search Product"
-            />
-            {isSearch && (
+        // <div className="w-full" ref={containerRef}>
+        <motion.div
+            role="heading"
+            className={`sticky top-0 z-30 mt-10 grid w-full grid-cols-[1fr_auto] gap-2 bg-skin-fill py-2 shadow-black md:px-10
+                ${isSticky ? "shadow-md" : ""}
+            `}
+            ref={ref}
+        >
+            <Input className="col-span-2" placeholder="Search Product" />
+            {isSearch && !isSticky && (
                 <>
-                    <ShopFilters
-                        className={
-                            "hidden gap-1 self-start overflow-x-auto no-scrollbar md:flex"
-                        }
-                        {...shopFiltersProps}
-                    />
-                    <CategoryFilters
-                        className={
-                            "col-span-2 hidden gap-1 self-start overflow-x-auto no-scrollbar md:flex"
-                        }
-                        {...categoryFiltersProps}
-                    />
+                    <div className="relative hidden overflow-hidden md:block">
+                        <ShopFilters
+                            className={
+                                "flex gap-1 self-start overflow-x-auto no-scrollbar"
+                            }
+                            {...shopFiltersProps}
+                        />
+                    </div>
+                    <div className="relative col-span-2 hidden overflow-hidden md:flex">
+                        <CategoryFilters
+                            className={
+                                "gap-1 overflow-x-auto no-scrollbar md:flex"
+                            }
+                            {...categoryFiltersProps}
+                        />
+                    </div>
                     <MobileFilter
                         className={
                             "w-min text-skin-base hover:text-gray-500 md:hidden"
@@ -75,5 +104,6 @@ export function Controls({ isSearch, shops, searchInfo }) {
             )}
             <Sort className="col-start-2 row-start-2 justify-self-end" />
         </motion.div>
+        // </div>
     );
 }
