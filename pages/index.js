@@ -3,35 +3,54 @@ import { useRouter } from "next/router";
 import Pagination from "../components/Pagination";
 import Products from "../components/Products";
 import useProducts from "../lib/useProducts";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
+import { useEvent } from "react-use";
 
 const Home = () => {
     const { isLoading, shops, products, searchInfo, limit } = useProducts();
 
     const router = useRouter();
     const ref = useRef();
-    const productsRef = useRef();
 
     const isSearch = router.query.search?.length > 0;
+    const controlsRef = useRef();
+    const [isSticky, setIsSticky] = useState(false);
 
     useEffect(() => {
         ref.current.scroll(0, 0);
     }, [router]);
 
+    useEvent(
+        "scroll",
+        () =>
+            setIsSticky(
+                controlsRef.current.getBoundingClientRect().top <=
+                    parseInt(window.getComputedStyle(controlsRef.current).top)
+            ),
+        ref.current
+    );
+
     return (
         <div className="flex h-screen flex-col justify-between overflow-x-hidden text-skin-base">
             <div ref={ref} className="overflow-y-auto overflow-x-hidden">
                 <Header shops={shops} />
-                <div className="container mx-auto flex flex-col items-center px-6 md:px-0">
+                <div
+                    ref={controlsRef}
+                    className={`sticky top-0 z-30 mx-auto border-black px-4 shadow-gray-900 ${
+                        isSticky
+                            ? "shadow-meditor.emmet.action.wrapWithAbbreviationd"
+                            : ""
+                    }`}
+                >
                     <Controls
                         isSearch={isSearch}
                         searchInfo={searchInfo}
                         shops={shops}
-                        containerRef={productsRef}
                     />
+                </div>
+                <div className="container mx-auto flex flex-col items-center px-6 md:px-0">
                     <Products
-                        ref={productsRef}
                         products={products}
                         shops={shops}
                         isLoading={isLoading}

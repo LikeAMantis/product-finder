@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import Sort from "./Sort";
 import Input from "./Input";
 import { motion } from "framer-motion";
@@ -7,7 +7,7 @@ import CategoryFilters from "./CategoryFilters";
 import MobileFilter from "./MobileFilter";
 import useFilter from "../lib/useFilter";
 
-export function Controls({ isSearch, shops, searchInfo, containerRef }) {
+export const Controls = forwardRef(({ isSearch, shops, searchInfo }, ref) => {
     const shopFilters = useFilter({
         saveToLocalStorage: true,
         type: "excludeShops",
@@ -29,38 +29,14 @@ export function Controls({ isSearch, shops, searchInfo, containerRef }) {
         searchInfo,
     };
 
-    const [isSticky, setIsSticky] = useState(false);
-    const ref = useRef();
-
-    // useEffect(() => {
-    //     const cachedRef = ref.current,
-    //         observer = new IntersectionObserver(() => console.log("yes"), {
-    //             root: containerRef.current,
-    //             threshold: [0.5],
-    //             rootMargin: "0px",
-    //         });
-    //     observer.observe(cachedRef);
-
-    //     return function () {
-    //         observer.unobserve(cachedRef);
-    //     };
-    // }, []);
-
-    useEffect(() => {
-        console.log("ok");
-    }, [isSticky]);
-
     return (
-        // <div className="w-full" ref={containerRef}>
         <motion.div
             role="heading"
-            className={`sticky top-0 z-30 mt-10 grid w-full grid-cols-[1fr_auto] gap-2 bg-skin-fill py-2 shadow-black md:px-10
-                ${isSticky ? "shadow-md" : ""}
-            `}
+            className="container mx-auto mt-10 grid w-full grid-cols-[1fr_auto] gap-2 bg-skin-fill py-2 shadow-black"
             ref={ref}
         >
             <Input className="col-span-2" placeholder="Search Product" />
-            {isSearch && !isSticky && (
+            {isSearch && (
                 <>
                     <div className="relative hidden overflow-hidden md:block">
                         <ShopFilters
@@ -104,6 +80,5 @@ export function Controls({ isSearch, shops, searchInfo, containerRef }) {
             )}
             <Sort className="col-start-2 row-start-2 justify-self-end" />
         </motion.div>
-        // </div>
     );
-}
+});

@@ -17,7 +17,7 @@ const ProductCard = ({ product, shop }) => {
                 <img
                     className="absolute left-0 top-0 w-8 rounded-sm"
                     src={shop.logoUrl}
-                ></img>
+                />
                 <div className="grid grid-cols-[auto_1fr] flex-col gap-3 md:flex md:gap-2">
                     {/* Name */}
                     <p
