@@ -1,7 +1,5 @@
 import { useRef } from "react";
-import useFilter from "../lib/useFilter";
 import useSideScroll from "../lib/useSideScroll";
-import { classNames } from "../lib/utils";
 import FilterBtn from "./FilterBtn";
 
 const ShopFilters = ({
@@ -14,7 +12,7 @@ const ShopFilters = ({
     excludeArr,
 }) => {
     const scrollContainerRef = useRef();
-    useSideScroll(scrollContainerRef);
+    const { leftIndicator, rightIndicator } = useSideScroll(scrollContainerRef);
 
     const filterBtnClasses = (isActive) =>
         `cursor-pointer select-none whitespace-nowrap rounded-full px-4 py-1 text-sm capitalize transition-colors duration-200 focus-visible:outline-none disabled:cursor-default disabled:bg-gray-600 disabled:text-gray-400  ${
@@ -29,6 +27,9 @@ const ShopFilters = ({
 
     return (
         <div ref={scrollContainerRef} className={className}>
+            {leftIndicator && (
+                <div className="absolute left-0 h-full w-8 bg-gradient-to-r from-gray-800 to-transparent" />
+            )}
             <FilterBtn
                 shopId="Select All"
                 className={filterBtnClasses(excludeArr.length === 0)}
@@ -52,6 +53,9 @@ const ShopFilters = ({
                         disabled={!getCountShop(shop.shopId)}
                     />
                 ))}
+            {rightIndicator && (
+                <div className="absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-gray-800 to-transparent" />
+            )}
         </div>
     );
 };

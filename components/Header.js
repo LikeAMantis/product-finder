@@ -1,6 +1,11 @@
-const Header = () => {
+const Header = ({ shops }) => {
     return (
-        <div className="flex h-24 w-full items-center justify-center bg-blue-900 uppercase text-white">
+        <div className="flex w-full flex-col items-center justify-center gap-2 bg-blue-900 p-5 uppercase text-white">
+            <div className="flex gap-1">
+                {shops.map((shop) => (
+                    <img className="aspect-square w-8" src={shop.logoUrl} />
+                ))}
+            </div>
             <a href="/">
                 <h1>Product Finder</h1>
             </a>

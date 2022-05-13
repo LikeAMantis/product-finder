@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 
-const Portal = ({ children, portalRef }) => {
-    return portalRef ? createPortal(children, portalRef.current) : children;
+const Portal = ({ children, targetContainer }) => {
+    return targetContainer ? createPortal(children, targetContainer) : children;
 };
 export default Portal;

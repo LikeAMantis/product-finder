@@ -10,7 +10,6 @@ export default function Pagination({ results, limit }) {
     const q = router.query.page;
     const currentPage = q ? parseInt(q) : 1;
     const pagesCount = Math.ceil(results / limit);
-    const pageDiv = 0;
     const scrollContainerRef = useRef();
 
     useSideScroll(scrollContainerRef, 1);
@@ -66,7 +65,6 @@ export default function Pagination({ results, limit }) {
                         results
                     </p>
                 </div>
-
                 <nav
                     className="relative z-0 inline-flex w-full justify-end -space-x-px overflow-x-hidden rounded-md px-2"
                     aria-label="Pagination"

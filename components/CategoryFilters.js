@@ -1,3 +1,4 @@
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import useSideScroll from "../lib/useSideScroll";
@@ -14,14 +15,19 @@ const CategoryFilters = ({
     setCachedCategories,
 }) => {
     const scrollContainerRef = useRef();
-    useSideScroll(scrollContainerRef);
+    const { leftIndicator, rightIndicator } = useSideScroll(
+        scrollContainerRef,
+        cachedCategories
+    );
 
     const prevSearch = useRef("");
     const router = useRouter();
 
     useEffect(() => {
+        if (searchInfo.categories.length == 0) return;
         const search = router.query.search;
         const isNewSearch = search !== prevSearch.current;
+
         if (isNewSearch) {
             setCachedCategories(searchInfo.categories);
             prevSearch.current = search;
@@ -37,6 +43,11 @@ const CategoryFilters = ({
 
     return (
         <div ref={scrollContainerRef} className={className}>
+            {leftIndicator && (
+                <div className="absolute left-0 flex h-full w-8 items-center bg-gradient-to-r from-gray-800 to-transparent">
+                    <ArrowLeftIcon className="h-4 w-4" />
+                </div>
+            )}
             <FilterBtn
                 shopId="Select All"
                 className={filterBtnClasses(excludeArr.length === 0)}
@@ -61,6 +72,11 @@ const CategoryFilters = ({
                     // }
                 />
             ))}
+            {rightIndicator && (
+                <div className="absolute top-0 right-0 flex h-full w-8 items-center justify-end bg-gradient-to-l from-gray-800 to-transparent">
+                    <ArrowRightIcon className="h-4 w-4" />
+                </div>
+            )}
         </div>
     );
 };

@@ -2,7 +2,6 @@ import { Controls } from "../components/Controls";
 import { useRouter } from "next/router";
 import Pagination from "../components/Pagination";
 import Products from "../components/Products";
-import useFilter from "../lib/useFilter";
 import useProducts from "../lib/useProducts";
 import { useEffect, useRef } from "react";
 import Header from "../components/Header";
@@ -12,6 +11,7 @@ const Home = () => {
 
     const router = useRouter();
     const ref = useRef();
+    const productsRef = useRef();
 
     const isSearch = router.query.search?.length > 0;
 
@@ -22,14 +22,16 @@ const Home = () => {
     return (
         <div className="flex h-screen flex-col justify-between overflow-x-hidden text-skin-base">
             <div ref={ref} className="overflow-y-auto overflow-x-hidden">
-                <Header />
+                <Header shops={shops} />
                 <div className="container mx-auto flex flex-col items-center px-6 md:px-0">
                     <Controls
                         isSearch={isSearch}
                         searchInfo={searchInfo}
                         shops={shops}
+                        containerRef={productsRef}
                     />
                     <Products
+                        ref={productsRef}
                         products={products}
                         shops={shops}
                         isLoading={isLoading}
