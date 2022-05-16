@@ -38,9 +38,7 @@ const Home = () => {
                 <div
                     ref={controlsRef}
                     className={`sticky top-0 z-30 mx-auto border-black px-4 shadow-gray-900 ${
-                        isSticky
-                            ? "shadow-meditor.emmet.action.wrapWithAbbreviationd"
-                            : ""
+                        isSticky ? "shadow-lg" : ""
                     }`}
                 >
                     <Controls

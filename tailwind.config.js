@@ -1,6 +1,8 @@
 const colors = require("tailwindcss/colors");
 const plugin = require("tailwindcss/plugin");
 
+const gray = colors.gray;
+
 module.exports = {
     content: [
         "./pages/**/*.{js,ts,jsx,tsx}",
@@ -9,18 +11,20 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                // gray: colors.neutral,
+                gray,
                 primary: colors.blue[500],
                 "primary-highlight": colors.blue[400],
             },
             backgroundColor: {
                 skin: {
+                    gray,
                     fill: colors.gray[800],
                     menu: colors.gray[700],
                 },
             },
             textColor: {
                 skin: {
+                    gray,
                     base: colors.gray[200],
                     muted: colors.gray[900],
                 },
@@ -39,9 +43,9 @@ module.exports = {
                     display: "none",
                 },
                 ".no-scrollbar": {
-                    "-ms-overflow-style": "none", /* IE and Edge */
-                    "scrollbar-width": "none", /* Firefox */
-                }
+                    "-ms-overflow-style": "none" /* IE and Edge */,
+                    "scrollbar-width": "none" /* Firefox */,
+                },
             });
         }),
     ],
