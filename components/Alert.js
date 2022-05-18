@@ -3,10 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 const Alert = ({ text }) => {
     return (
         <motion.div
-            initial={{ opacity: 0, top: 0, x: "-50%" }}
-            animate={{ opacity: 1, top: "20%", x: "-50%" }}
-            exit={{ opacity: 0, top: "-20%", x: "-50%" }}
-            className="fixed top-5 left-1/2 mb-4 flex rounded-lg bg-blue-100 p-4 text-sm text-blue-700 dark:bg-blue-200 dark:text-blue-800"
+            initial={{ opacity: 0, top: "-10%" }}
+            animate={{ opacity: 1, top: "10%" }}
+            exit={{ opacity: 0, top: "-10%" }}
+            className="fixed top-5 left-1/2 mb-4 flex -translate-x-1/2 rounded-lg bg-blue-100 p-4 text-sm text-blue-700 dark:bg-blue-200 dark:text-blue-800"
             role="alert"
         >
             <svg

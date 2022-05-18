@@ -4,7 +4,7 @@
 
 @layer base {
     body {
-        @apply bg-skin-fill;
+        @apply bg-skin-fill overflow-y-auto overflow-x-hidden;
     }
     h1 {
         @apply text-3xl;

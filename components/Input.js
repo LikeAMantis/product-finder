@@ -77,10 +77,10 @@ const Input = ({ placeholder, className }) => {
                     if (items.length == 0) return;
 
                     if (e.key === "Enter") {
-                        // if (value.length == 0) {
-                        //     setShowAlert(true);
-                        //     return;
-                        // }
+                        if (value.length == 0) {
+                            setShowAlert(true);
+                            return;
+                        }
                         router.push({
                             query: {
                                 ...router.query,
