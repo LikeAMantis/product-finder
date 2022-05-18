@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useDebounce } from "react-use";
 import { classNames } from "../lib/utils";
 import Alert from "./Alert";
@@ -92,33 +92,32 @@ const Input = ({ placeholder, className }) => {
                     }
                 }}
             />
-            {/* <MyCombobox /> */}
             <p className="pointer-events-none absolute top-0.5 px-1 text-xs text-gray-400 transition-all duration-200 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base">
                 {placeholder}
             </p>
             <div className="relative -top-px w-full origin-center scale-x-0 border-b border-primary-highlight transition-all duration-200 peer-focus:scale-x-100"></div>
-            {/* Error */}
             <AnimatePresence>
                 {showAlert && <Alert text="Need at least 1 Character!" />}
             </AnimatePresence>
-            <Portal>
-                <Transition
-                    show={hasFocus && value.length > 0}
-                    enter="transition-opacity duration-200"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition-opacity duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+            {/* <Portal> */}
+            <Transition
+                as={Fragment}
+                show={hasFocus && value.length > 0}
+                enter="transition-opacity duration-200"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+            >
+                <div
+                    ref={popperElement}
+                    className="absolute z-40 w-full space-y-2 rounded-lg bg-skin-menu p-5 text-skin-base shadow-lg shadow-black"
                 >
-                    <div
-                        ref={popperElement}
-                        className="z-40 w-full max-w-lg space-y-2 rounded-lg bg-white p-5 text-skin-muted shadow-sm shadow-black"
-                    >
-                        {popup()}
-                    </div>
-                </Transition>
-            </Portal>
+                    {popup()}
+                </div>
+            </Transition>
+            {/* </Portal> */}
         </div>
     );
 };

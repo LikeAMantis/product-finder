@@ -19,7 +19,7 @@ module.exports = {
                 skin: {
                     gray,
                     fill: colors.gray[800],
-                    menu: colors.gray[700],
+                    menu: colors.gray[900],
                 },
             },
             textColor: {

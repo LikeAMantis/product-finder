@@ -32,8 +32,6 @@ export default function handler(
                 shopCounts: rows[0],
                 categories: rows[1],
             };
-
-            console.log(data);
             res.status(200).json(data);
         }
     );
