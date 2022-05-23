@@ -29,7 +29,7 @@ const ProductCard = ({ product, shop }) => {
                     {/* Product Image */}
                     <div className="col-start-1 row-start-1 flex aspect-square w-32 justify-center self-center overflow-hidden bg-white md:order-none md:w-44">
                         <img
-                            className="h-full w-full transition-transform duration-1000 group-hover:scale-125"
+                            className="h-full w-full transition-transform duration-700 group-hover:scale-110"
                             src={product.imgUrl}
                         />
                     </div>

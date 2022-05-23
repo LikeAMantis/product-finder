@@ -32,7 +32,7 @@ export const Controls = forwardRef(({ isSearch, shops, searchInfo }, ref) => {
     return (
         <motion.div
             role="heading"
-            className="container mx-auto mt-10 grid w-full grid-cols-[1fr_auto] gap-2 bg-skin-fill py-2 shadow-black"
+            className="container mx-auto grid w-full grid-cols-[1fr_auto] gap-2 bg-skin-fill py-2 shadow-black"
             ref={ref}
         >
             <Input className="col-span-2" placeholder="Search Product" />
