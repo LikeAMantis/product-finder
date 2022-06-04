@@ -22,18 +22,8 @@ const buttonIcon = (open) => {
 };
 
 export default function Sort({ className }) {
-    const [currentOption, setCurrentOption] = useState("priceAsc");
     const router = useRouter();
-
-    useEffect(
-        () => {
-            const orderBy = router.query.orderBy;
-
-            if (!orderBy) return;
-            setCurrentOption(orderBy);
-        },
-        [router] // when using server side rendering -> delete router dependency
-    );
+    const currentOption = router.query.orderBy ?? "priceAsc";
 
     return (
         <Menu

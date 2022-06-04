@@ -6,10 +6,9 @@ import useProducts from "../lib/useProducts";
 import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
 import { useEvent } from "react-use";
-import { server } from "../config";
 
-const Home = ({ shops }) => {
-    const { isLoading, products, searchInfo, limit } = useProducts();
+const Home = () => {
+    const { isLoading, products, searchInfo, limit, shops } = useProducts();
 
     const router = useRouter();
     const ref = useRef();
@@ -70,17 +69,17 @@ const Home = ({ shops }) => {
     );
 };
 
-export async function getServerSideProps() {
-    async function getShops() {
-        const url = `${server}api/shops`;
-        const res = await fetch(url);
-        const data = await res.json();
-        return data;
-    }
+// export async function getServerSideProps() {
+//     async function getShops() {
+//         const url = `${server}api/shops`;
+//         const res = await fetch(url);
+//         const data = await res.json();
+//         return data;
+//     }
 
-    const shops = await getShops();
+//     const shops = await getShops();
 
-    return { props: { shops } };
-}
+//     return { props: { shops } };
+// }
 
 export default Home;
