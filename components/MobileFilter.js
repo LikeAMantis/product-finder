@@ -1,12 +1,6 @@
-import { Dialog, Disclosure, Transition } from "@headlessui/react";
-import {
-    FilterIcon,
-    MinusSmIcon,
-    PlusSmIcon,
-    XIcon,
-} from "@heroicons/react/solid";
-import { Children, Fragment, useState } from "react";
-import { classNames } from "../lib/utils";
+import { Dialog, Transition } from "@headlessui/react";
+import { FilterIcon, XIcon } from "@heroicons/react/solid";
+import { Fragment, useState } from "react";
 
 const MobileFilter = ({ children, className }) => {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);

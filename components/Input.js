@@ -4,22 +4,25 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { useDebounce } from "react-use";
 import { classNames } from "../lib/utils";
 import Alert from "./Alert";
-import { createPopper } from "@popperjs/core";
-import { Portal, Transition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 
 const Input = ({ placeholder, className }) => {
     const router = useRouter();
-    const [value, setValue] = useState(router.query.search ?? "");
+    const [value, setValue] = useState("");
     const [showAlert, setShowAlert] = useState(false);
     const [items, setItems] = useState([]);
 
     const [hasFocus, setHasFocus] = useState(false);
-    const referenceElement = useRef();
-    const popperElement = useRef();
 
-    createPopper(referenceElement.current, popperElement.current, {
-        placement: "bottom-start",
-    });
+    useEffect(() => {
+        const search = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        }).search;
+
+        if (!search) return;
+
+        setValue(search);
+    }, []);
 
     useEffect(() => {
         if (!showAlert) return;
@@ -50,7 +53,7 @@ const Input = ({ placeholder, className }) => {
     function popup() {
         if (items.length > 0) {
             return items.map((item) => (
-                <div class="flex items-center gap-3">
+                <div key={item.productId} className="flex items-center gap-3">
                     <img className="aspect-square w-8" src={item.imgUrl} />
                     <p className="truncate">{item.name}</p>
                 </div>
@@ -63,7 +66,6 @@ const Input = ({ placeholder, className }) => {
         <div className={classNames("relative w-full", className)}>
             <input
                 className="peer relative mt-4 w-full border-b border-gray-400 bg-transparent px-1 text-lg text-skin-base outline-none"
-                ref={referenceElement}
                 placeholder=" "
                 type="search"
                 role="search"
@@ -110,10 +112,7 @@ const Input = ({ placeholder, className }) => {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >
-                <div
-                    ref={popperElement}
-                    className="absolute z-40 w-full space-y-2 rounded-lg bg-skin-menu p-5 text-skin-base shadow-lg shadow-black"
-                >
+                <div className="absolute z-40 w-full space-y-2 rounded-lg bg-skin-menu p-5 text-skin-base shadow-lg shadow-black">
                     {popup()}
                 </div>
             </Transition>

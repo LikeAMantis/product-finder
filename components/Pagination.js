@@ -90,6 +90,7 @@ export default function Pagination({ results, limit }) {
                     >
                         {range(1, pagesCount).map((count) => (
                             <Link
+                                key={count}
                                 href={{
                                     query: {
                                         ...router.query,
