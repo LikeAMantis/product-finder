@@ -15,12 +15,10 @@ const Input = ({ placeholder, className }) => {
     const [hasFocus, setHasFocus] = useState(false);
 
     useEffect(() => {
-        const search = new Proxy(new URLSearchParams(window.location.search), {
-            get: (searchParams, prop) => searchParams.get(prop),
-        }).search;
-
+        const search = new URLSearchParams(window.location.search).get(
+            "search"
+        );
         if (!search) return;
-
         setValue(search);
     }, []);
 

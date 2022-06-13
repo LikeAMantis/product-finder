@@ -32,7 +32,7 @@ export default function handler(
     excludeCategories = excludeCategories.split(",");
 
     const query = `SELECT * FROM products 
-        WHERE INSTR(name, "${search}") > 0
+        WHERE INSTR(LOWER(name), "${search.toLowerCase()}") > 0
         AND shopId Not IN (?) AND categoryId Not IN (?)
         ORDER BY ${orders[orderBy]}
         LIMIT ${offset}, ${limit}
